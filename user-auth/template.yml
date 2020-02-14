@@ -1,0 +1,23 @@
+ROSTemplateFormatVersion: '2015-09-01'
+Transform: 'Aliyun::Serverless-2018-04-03'
+Resources:
+  chilizi-user-auth:
+    Type: 'Aliyun::Serverless::Service'
+    Properties:
+      Description: This is chilizi-user-auth service
+    api:
+      Type: 'Aliyun::Serverless::Function'
+      Properties:
+        Handler: index.handler
+        Runtime: nodejs8
+        Timeout: 60
+        MemorySize: 512
+        CodeUri: code
+      Events:
+        httpTrigger:
+          Type: HTTP
+          Properties:
+            AuthType: ANONYMOUS
+            Methods:
+              - GET
+              - POST
