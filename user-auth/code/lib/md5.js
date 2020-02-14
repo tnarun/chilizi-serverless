@@ -10,7 +10,7 @@ const addSalt = ({ password, salt }) => {
 }
 
 const randstr = (len = 16) => {
-  let s = 'abcdefghijklmnopqrstuvwxyz0123456789'
+  let s = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
   let re = ''
   for (let i = 0; i < len; i ++) {
     let idx = ~~(Math.random() * s.length)
