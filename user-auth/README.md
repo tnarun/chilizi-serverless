@@ -1,4 +1,4 @@
-# chiliz-user-auth
+# chilizi-user-auth
 
 用户验证函数
 

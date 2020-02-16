@@ -63,5 +63,25 @@ describe('UserStore', () => {
       should(user1).ok()
       should(user2).null()
     })
+
+    it ('根据 login 和密码获得 authToken', async () => {
+      let token1 = await UserStore.getAuthToken({ login: 'ben7th', password: '123456' })
+      let token2 = await UserStore.getAuthToken({ login: 'ben7th', password: '654321' })
+      should(token1).ok()
+      should(token2).null()
+      console.log({ token: token1 })
+
+      let user = await UserStore.verifyAuthToken(token1)
+      should(user).ok()
+      should(user.store.login).equal('ben7th')
+    })
+
+    it ('safeInfo', async () => {
+      let login = 'ben7th'
+      let user = await UserStore.getByLogin(login)
+      let info = user.safeInfo
+      should(info.passwordSalt).not.ok()
+      should(info.passwordTicket).not.ok()
+    })
   })
 })
