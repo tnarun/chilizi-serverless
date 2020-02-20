@@ -5,6 +5,7 @@ Resources:
     Type: 'Aliyun::Serverless::Service'
     Properties:
       Description: This is chilizi-user-auth service
+
     api:
       Type: 'Aliyun::Serverless::Function'
       Properties:
@@ -21,3 +22,22 @@ Resources:
             Methods:
               - GET
               - POST
+
+    provider:
+      Type: 'Aliyun::Serverless::Function'
+      Properties:
+        Handler: provider.handler
+        Runtime: nodejs8
+        Timeout: 60
+        MemorySize: 512
+        CodeUri: code
+      Events:
+        httpTrigger:
+          Type: HTTP
+          Properties:
+            AuthType: ANONYMOUS
+            Methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE

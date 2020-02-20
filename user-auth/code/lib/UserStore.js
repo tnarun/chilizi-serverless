@@ -81,14 +81,56 @@ class UserStore {
   }
 
   get safeInfo () {
-    let { _id, login, createdAt, updatedAt } = this.store
-    return { id: _id, login, createdAt, updatedAt }
+    let { _id, login, createdAt, updatedAt, description } = this.store
+    return { 
+      id: _id.toString(), 
+      login, createdAt, updatedAt,
+      description
+    }
   }
 
   checkPassword (password) {
     let { passwordSalt, passwordTicket } = this.store
     return md5.addSalt({ password, salt: passwordSalt }) === passwordTicket
   }
+}
+
+// provider 
+
+UserStore.getList = async () => {
+  let users
+  await db.connectDB(async () => {
+    users = await User.find({})
+  })
+  return users.map(x => {
+    return new UserStore(x).safeInfo
+  })
+}
+
+UserStore.totalCount = async () => {
+  let count
+  await db.connectDB(async () => {
+    count = await User.countDocuments({})
+  })
+  return count
+}
+
+UserStore.getOne = async (id) => {
+  let user
+  await db.connectDB(async () => {
+    user = await User.findById(id)
+  })
+  return new UserStore(user).safeInfo
+}
+
+UserStore.update = async (id, data) => {
+  let { description } = data
+  let user
+  await db.connectDB(async () => {
+    await User.updateOne({ _id: id }, { description })
+    user = await User.findById(id)
+  })
+  return new UserStore(user).safeInfo
 }
 
 module.exports = UserStore

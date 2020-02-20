@@ -12,13 +12,15 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, 
     trim: true, index: true, unique: true, sparse: true }, 
 
-  // 用户昵称
-  nickName: { type: String }, 
-
   // 密码加密 salt
   passwordSalt: { type: String }, 
   // 密码加密后的密文
   passwordTicket: { type: String }, 
+
+  // 用户昵称
+  nickName: { type: String }, 
+  // 用户简介
+  description: { type: String },
 }, { timestamps: true })
 
 const User = mongoose.model('User', UserSchema)
