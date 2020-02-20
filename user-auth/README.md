@@ -4,20 +4,24 @@
 
 ## 测试
 
-`npm test`
+`yarn test`
 
 ## provider
 
 此函数用于向用户管理提供 provider, 具体参考:  
 <https://github.com/marmelab/react-admin/tree/master/packages/ra-data-json-server>
 
+endpoint: `<api-url>/json`
+
+写 [x] 的表示没有实现  
+
 | Method             | API calls
 |--------------------|----------------------------------------------------------------
-| `getList`          | `GET /json/users?_sort=title&_order=ASC&_start=0&_end=24&title=bar`
-| `getOne`           | `GET /json/users/123`
-| `getMany`          | `GET /json/users/123, GET /json/users/456, GET /json/users/789`
-| `[x]getManyReference` | `GET http://my.api.url/posts?author_id=345`
-| `create`           | `POST /json/users`
-| `update`           | `PUT /json/users/123`
-| `updateMany`       | `PUT http://my.api.url/posts/123`, `PUT http://my.api.url/posts/456`, `PUT http://my.api.url/posts/789`
-| `delete`           | `DELETE http://my.api.url/posts/123`
+| `getList`          | `GET /users?_sort=name&_order=ASC&_start=0&_end=24&name=slime`
+| `getOne`           | `GET /users/123`
+| `getMany`          | `GET /users/123, GET /users/456, GET /users/789`
+| `create`           | `POST /users`
+| `update`           | `PUT /users/123`
+| `updateMany`       | `PUT /users/123, PUT /users/456, PUT /users/789`
+| `[x]getManyReference` | `GET /users?author_id=345`
+| `[x]delete`        | `DELETE /users/123`
