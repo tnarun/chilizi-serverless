@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "ben7th-fc-utils": "^1.0.5",
+    "node-fetch": "^2.6.0",
+    "url-router": "^11.0.2"
+  }
+}
