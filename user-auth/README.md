@@ -4,6 +4,8 @@
 
 ## 测试
 
+先启动本地数据库  
+`./start-test-mongo.sh`  
 `yarn test`
 
 ## provider
