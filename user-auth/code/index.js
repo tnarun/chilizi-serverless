@@ -1,4 +1,5 @@
 require('./env')
+// require('./env-test') // 部署前注释掉
 
 const Router = require('url-router')
 const util = require('util')
@@ -6,7 +7,10 @@ const { getJsonBody, respJSON } = require('ben7th-fc-utils')
 
 const UserStore = require('./lib/UserStore')
 
-const router = new Router([
+const ModuleActivityEnroll = require('./modules/activity-enroll')
+const ModuleSpeedrunRecord = require('./modules/speedrun-record')
+
+const apis = [
   // 2020-06-18 暂时不用
   // // 根据用户名和密码创建用户
   // ['/createByLoginAndPassword', async ({ req, resp, route }) => {
@@ -60,7 +64,10 @@ const router = new Router([
     let user = await UserStore.verifyAuthToken(authToken)
     return { user: user ? user.store : null }
   }]
-])
+].concat(ModuleActivityEnroll)
+  .concat(ModuleSpeedrunRecord)
+
+const router = new Router(apis)
 
 module.exports.handler = (req, resp, context) => {
   let route = router.find(req.path)

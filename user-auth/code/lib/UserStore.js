@@ -67,7 +67,7 @@ class UserStore {
   static async getByLogin (login) {
     let store
     await db.connectDB(async () => {
-      store = await User.findOne({ login })
+      store = await User.findOne({ login }).select('+passwordSalt +passwordTicket')
     })
     if (!store) {
       return null
@@ -79,7 +79,7 @@ class UserStore {
   static async getByPhoneNumber (phoneNumber) {
     let store
     await db.connectDB(async () => {
-      store = await User.findOne({ phoneNumber })
+      store = await User.findOne({ phoneNumber }).select('+passwordSalt +passwordTicket')
     })
     if (!store) {
       return null

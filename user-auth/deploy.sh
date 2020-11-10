@@ -1,0 +1,1 @@
+~/.aliyun-serverless/bin/fun.sh deploy -t template.yml -y
