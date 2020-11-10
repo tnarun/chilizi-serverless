@@ -1,4 +1,4 @@
-const { getJsonBody, respJSON } = require('ben7th-fc-utils')
+const { getJsonBody } = require('ben7th-fc-utils')
 const SpeedrunRecordStore = require('../lib/SpeedrunRecordStore')
 
 module.exports = [
