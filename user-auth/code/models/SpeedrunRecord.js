@@ -6,7 +6,7 @@ const SpeedrunRecordSchema = new Schema({
   // 短 id, 用于组织 url
   sid: { type: String },
   // 游戏缩写，用于查询
-  gameAbbr: { type: String},
+  gameAbbr: { type: String },
 
   // 成绩原始数据
   recordRawData: { type: Object },
@@ -17,6 +17,8 @@ const SpeedrunRecordSchema = new Schema({
   // approve - 批准
   // dispute - 争议
   verifyStatus: { type: String, default: 'wait' }, 
+
+  userId: { type: String }
 }, { timestamps: true })
 
 const SpeedrunRecord = mongoose.model('SpeedrunRecord', SpeedrunRecordSchema)

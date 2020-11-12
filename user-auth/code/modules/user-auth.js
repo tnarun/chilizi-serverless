@@ -1,5 +1,5 @@
 const { getJsonBody } = require('ben7th-fc-utils')
-const UserStore = require('./lib/UserStore')
+const UserStore = require('../lib/UserStore')
 
 module.exports = [
   // 2020-06-18 暂时不用

@@ -3,16 +3,18 @@ require('./env')
 
 const Router = require('url-router')
 const util = require('util')
-const { getJsonBody, respJSON } = require('ben7th-fc-utils')
+const { respJSON } = require('ben7th-fc-utils')
 
 const ModuleActivityEnroll = require('./modules/activity-enroll')
 const ModuleSpeedrunRecord = require('./modules/speedrun-record')
 const ModuleUserAuth = require('./modules/user-auth')
+const ModuleUserAuthV2 = require('./modules/user-auth-v2')
 
 const apis = []
   .concat(ModuleUserAuth)
   .concat(ModuleActivityEnroll)
   .concat(ModuleSpeedrunRecord)
+  .concat(ModuleUserAuthV2)
 
 const router = new Router(apis)
 

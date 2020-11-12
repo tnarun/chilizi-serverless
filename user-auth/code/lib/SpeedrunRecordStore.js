@@ -32,11 +32,12 @@ class SpeedrunRecordStore {
     let store
     let sid = genId()
     let gameAbbr = recordData.gameData.abbr
+    let userId = recordData.userId
 
     await db.connectDB(async () => {
       store = await SpeedrunRecord.create({ 
         recordRawData: recordData, 
-        sid, gameAbbr
+        sid, gameAbbr, userId
       })
     })
   

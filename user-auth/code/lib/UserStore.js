@@ -15,11 +15,20 @@ class UserStore {
   }
 
   get safeData () {
-    let { login, phoneNumber, email, nickName, description,
-      createdAt, updatedAt } = this.store
+    let { _id, 
+      login, phoneNumber, email, 
+      nickName, description,
+      createdAt, updatedAt 
+    } = this.store
+
     let { authToken } = this
-    return { authToken, login, phoneNumber, email, nickName, description,
-      createdAt, updatedAt }
+
+    return { _id, 
+      authToken, 
+      login, phoneNumber, email, 
+      nickName, description,
+      createdAt, updatedAt 
+    }
   }
 
   static async __clear () {
@@ -63,6 +72,24 @@ class UserStore {
     return new UserStore(store)
   }
 
+  // 根据手机号或邮箱创建用户
+  // 2020.11.11 ben7th
+  static async createByPassword ({ phoneNumber, email, password, nickName }) {
+    let { passwordSalt, passwordTicket } = genPassTicket(password)
+    
+    let data = { 
+      phoneNumber, email, password, nickName,
+      passwordSalt, passwordTicket
+    }
+
+    let store
+    await db.connectDB(async () => {
+      store = await User.create(data)
+    })
+
+    return new UserStore(store)
+  }
+
   // 根据 login 查找用户
   static async getByLogin (login) {
     let store
@@ -87,6 +114,28 @@ class UserStore {
     return new UserStore(store)
   }
 
+  // 根据 login 或手机号或邮箱查找用户
+  // 2020.11.11
+  static async getByAny ({ login, phoneNumber, email }) {
+    let s1, s2, s3
+    await db.connectDB(async () => {
+      if (login) {
+        s1 = await User.findOne({ login }).select('+passwordSalt +passwordTicket')
+      }
+      if (phoneNumber) {
+        s2 = await User.findOne({ phoneNumber }).select('+passwordSalt +passwordTicket')
+      }
+      if (email) {
+        s3 = await User.findOne({ email }).select('+passwordSalt +passwordTicket')
+      }
+    })
+    let store = s1 || s2 || s3
+    if (!store) {
+      return null
+    }
+    return new UserStore(store)
+  }
+
   // 根据 login 和密码查找用户
   static async getByLoginAndPassword ({ login, password }) {
     let user = await UserStore.getByLogin(login)
@@ -102,6 +151,19 @@ class UserStore {
   // 根据手机号和密码查找用户
   static async getByPhoneAndPassword ({ phoneNumber, password }) {
     let user = await UserStore.getByPhoneNumber(phoneNumber)
+    if (!user) {
+      return null
+    }
+    if (user.checkPassword(password)) {
+      return user
+    }
+    return null
+  }
+
+  // 根据手机号或邮箱和密码查找用户
+  // 2020.11.11
+  static async getByPassword ({ phoneNumber, email, password }) {
+    let user = await UserStore.getByAny({ login: null, phoneNumber, email })
     if (!user) {
       return null
     }
@@ -162,6 +224,13 @@ class UserStore {
     let { passwordSalt, passwordTicket } = this.store
     return md5.addSalt({ password, salt: passwordSalt }) === passwordTicket
   }
+
+  async updateNickName ({ nickName }) {
+    await db.connectDB(async () => {
+      this.store.nickName = nickName
+      await this.store.save()
+    })
+  } 
 }
 
 // provider 
