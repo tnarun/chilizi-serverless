@@ -31,6 +31,20 @@ class UserStore {
     }
   }
 
+  get safeInfo () {
+    let { _id, 
+      login, 
+      nickName, description,
+      createdAt, updatedAt 
+    } = this.store
+
+    return { id: _id, _id, 
+      login, 
+      nickName, description,
+      createdAt, updatedAt 
+    }
+  }
+
   static async __clear () {
     await db.connectDB(async () => {
       await User.deleteMany({ })
@@ -209,15 +223,6 @@ class UserStore {
     let { JWT_SECRET } = process.env
     let token = jwt.sign({ id: _id }, JWT_SECRET, { expiresIn: '24h' })
     return token
-  }
-
-  get safeInfo () {
-    let { _id, login, createdAt, updatedAt, description } = this.store
-    return { 
-      id: _id.toString(), 
-      login, createdAt, updatedAt,
-      description
-    }
   }
 
   checkPassword (password) {

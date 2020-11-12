@@ -51,4 +51,12 @@ module.exports = [
     }
     return { user: null }
   }],
+
+  // 根据 ID 获取用户信息
+  ['/v2/user/getById', async ({ req, resp, route }) => {
+    let { body } = await getJsonBody({ req, resp })
+    let { id } = body
+    let user = await UserStore.getOne(id)
+    return user
+  }]
 ]
