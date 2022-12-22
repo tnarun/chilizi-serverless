@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "ben7th-fc-utils": "^1.0.5",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "url-router": "^11.0.2"
   },
   "devDependencies": {
